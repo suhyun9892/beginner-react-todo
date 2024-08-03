@@ -3,10 +3,12 @@ import type { Todo } from '../App'
 
 export default function TodoItem({
   todo,
-  setTodo
+  setTodo,
+  deleteTodo
 }: {
   todo: Todo
   setTodo: (updatedTodo: Todo) => void
+  deleteTodo: (todoToDelete: Todo) => void
 }) {
   // return 키워드 없으면 void(return 키워드가 없다는 뜻. 있으면 그 데이터 써줘야 됨)
   // return undefined --> undefined 타입 !
@@ -46,7 +48,7 @@ export default function TodoItem({
     // setTodo(updatedTodo)
   }
 
-  async function deleteTodo() {
+  async function deleteItem() {
     await fetch(
       `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todo.id}`, //:todoId
       {
@@ -58,6 +60,7 @@ export default function TodoItem({
         }
       }
     )
+    deleteTodo(todo)
   }
 
   return (
@@ -68,7 +71,7 @@ export default function TodoItem({
         onChange={e => setTItle(e.target.value)}
         onKeyDown={keydownHandler}
       />
-      <button onClick={deleteTodo}>삭제</button>
+      <button onClick={deleteItem()}>삭제</button>
     </li>
   )
 }

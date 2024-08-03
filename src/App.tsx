@@ -61,6 +61,14 @@ export default function App() {
     })
   }
 
+  function deleteTodo() {
+    // todos를 수정할 수 있는 유일한 함수 !
+    setTodos(todos => {
+      // todos에서 삭제할 todo를 제외한 나머지 todo들을 반환
+      return todos.filter(todo => todo.id !== 'todo.id')
+    })
+  }
+
   return (
     <>
       <div>{loading && <TheLoader />}</div>
@@ -71,6 +79,7 @@ export default function App() {
             <TodoItem
               todo={todo}
               setTodo={setTodo}
+              deleteTodo={deleteTodo}
             />
           </Fragment>
         ))}
