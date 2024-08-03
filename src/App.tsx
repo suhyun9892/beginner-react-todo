@@ -49,6 +49,18 @@ export default function App() {
     }
   }
 
+  function setTodo(updatedTodo: Todo) {
+    // const [todos, setTodos] = useState<Todos>([]) 여기에서의 todos임
+    setTodos(todos => {
+      return todos.map(todo => {
+        if (todo.id === updatedTodo.id) {
+          return updatedTodo
+        }
+        return todo
+      })
+    })
+  }
+
   return (
     <>
       <div>{loading && <TheLoader />}</div>
@@ -58,7 +70,7 @@ export default function App() {
           <Fragment key={todo.id}>
             <TodoItem
               todo={todo}
-              getTodos={getTodos}
+              setTodo={setTodo}
             />
           </Fragment>
         ))}

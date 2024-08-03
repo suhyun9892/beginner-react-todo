@@ -3,10 +3,10 @@ import type { Todo } from '../App'
 
 export default function TodoItem({
   todo,
-  getTodos
+  setTodo
 }: {
   todo: Todo
-  getTodos: () => void
+  setTodo: (updatedTodo: Todo) => void
 }) {
   // return 키워드 없으면 void(return 키워드가 없다는 뜻. 있으면 그 데이터 써줘야 됨)
   // return undefined --> undefined 타입 !
@@ -19,6 +19,11 @@ export default function TodoItem({
   }
 
   async function updateTodo() {
+    setTodo({
+      ...todo,
+      title: title
+      // title은 수정된 그 title로 적용해줘, 속성과 변수 이름이 같으니 그냥 title로 축약할 수 있음
+    })
     console.log('서버로 전송', title)
     const res = await fetch(
       `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todo.id}`,
@@ -30,17 +35,16 @@ export default function TodoItem({
           username: 'Grepp_KDT4_ParkYoungWoong'
         },
         body: JSON.stringify({
+          // 수정된 title
           title,
           done: todo.done
         })
       }
     )
-    const data = await res.json()
-    console.log(data, title)
-    // 새로운 목록을 호출하는 방법
-    getTodos()
+    const updatedTodo: Todo = await res.json()
+    console.log(updatedTodo, title)
+    // setTodo(updatedTodo)
   }
-  //
 
   async function deleteTodo() {
     await fetch(
