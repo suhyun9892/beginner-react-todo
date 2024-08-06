@@ -49,6 +49,26 @@ export default function App() {
     }
   }
 
+  function setTodo(updatedTodo: Todo) {
+    // const [todos, setTodos] = useState<Todos>([]) 여기에서의 todos임
+    setTodos(todos => {
+      return todos.map(todo => {
+        if (todo.id === updatedTodo.id) {
+          return updatedTodo
+        }
+        return todo
+      })
+    })
+  }
+
+  function deleteTodo() {
+    // todos를 수정할 수 있는 유일한 함수 !
+    setTodos(todos => {
+      // todos에서 삭제할 todo를 제외한 나머지 todo들을 반환
+      return todos.filter(todo => todo.id !== 'todo.id')
+    })
+  }
+
   return (
     <>
       <div>{loading && <TheLoader />}</div>
@@ -58,7 +78,8 @@ export default function App() {
           <Fragment key={todo.id}>
             <TodoItem
               todo={todo}
-              getTodos={getTodos}
+              setTodo={setTodo}
+              deleteTodo={deleteTodo}
             />
           </Fragment>
         ))}
