@@ -33,8 +33,8 @@ export default function TodoItem({
         method: 'PUT',
         headers: {
           'content-type': 'application/json',
-          apikey: '5X8Z1k7M2vU5Q',
-          username: 'Grepp_KDT4_ParkYoungWoong'
+          apikey: 'KDT9_AHMq2s7n',
+          username: 'FE1_ParkSuHyun'
         },
         body: JSON.stringify({
           // 수정된 title
@@ -55,8 +55,8 @@ export default function TodoItem({
         method: 'DELETE',
         headers: {
           'content-type': 'application/json',
-          apikey: '5X8Z1k7M2vU5Q',
-          username: 'Grepp_KDT4_ParkYoungWoong'
+          apikey: 'KDT9_AHMq2s7n',
+          username: 'FE1_ParkSuHyun'
         }
       }
     )
@@ -71,7 +71,9 @@ export default function TodoItem({
         onChange={e => setTItle(e.target.value)}
         onKeyDown={keydownHandler}
       />
-      <button onClick={deleteItem()}>삭제</button>
+      <button onClick={deleteItem}>삭제</button>
+      {/* <button onClick={deleteItem()}>삭제</button> */}
+      {/* 호출을 해버려서 바로 지워졌던 문제 !!! */}
     </li>
   )
 }

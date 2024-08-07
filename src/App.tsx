@@ -1,6 +1,7 @@
 import { useState, useEffect, Fragment } from 'react'
 import TheLoader from './components/TheLoader'
 import TodoItem from './components/TodoItem'
+import TodoCreator from './components/TodoCreator'
 
 export type Todos = Todo[]
 export interface Todo {
@@ -22,6 +23,7 @@ export default function App() {
   }, [])
 
   async function getTodos() {
+    // 목록 새로 가지고 오는 함수
     // 최상위레벨이 아니고 App 안으로 들어가야 하는 구조, export 사용 불가
     try {
       const res = await fetch(
@@ -30,8 +32,8 @@ export default function App() {
           method: 'GET',
           headers: {
             'content-type': 'application/json',
-            apikey: '5X8Z1k7M2vU5Q',
-            username: 'Grepp_KDT4_ParkYoungWoong'
+            apikey: 'KDT9_AHMq2s7n',
+            username: 'FE1_ParkSuHyun'
           }
         }
       )
@@ -61,16 +63,17 @@ export default function App() {
     })
   }
 
-  function deleteTodo() {
+  function deleteTodo(todoToDelete: Todo) {
     // todos를 수정할 수 있는 유일한 함수 !
     setTodos(todos => {
       // todos에서 삭제할 todo를 제외한 나머지 todo들을 반환
-      return todos.filter(todo => todo.id !== 'todo.id')
+      return todos.filter(todo => todo.id !== todoToDelete.id)
     })
   }
 
   return (
     <>
+      <TodoCreator getTodos={getTodos} />
       <div>{loading && <TheLoader />}</div>
       <div>{message}</div>
       <ul>
