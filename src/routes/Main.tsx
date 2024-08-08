@@ -1,7 +1,8 @@
 import { useState, useEffect, Fragment } from 'react'
-import TheLoader from './components/TheLoader'
-import TodoItem from './components/TodoItem'
-import TodoCreator from './components/TodoCreator'
+import { Outlet } from 'react-router-dom'
+import TheLoader from '@/components/TheLoader'
+import TodoItem from '@/components/TodoItem'
+import TodoCreator from '@/components/TodoCreator'
 
 export type Todos = Todo[]
 export interface Todo {
@@ -87,6 +88,7 @@ export default function App() {
           </Fragment>
         ))}
       </ul>
+      <Outlet />
     </>
   )
 }

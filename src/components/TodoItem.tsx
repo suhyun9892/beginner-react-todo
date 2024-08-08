@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import type { Todo } from '../App'
+import { Link } from 'react-router-dom'
+import type { Todo } from '@/routes/Main'
 
 export default function TodoItem({
   todo,
@@ -65,7 +66,7 @@ export default function TodoItem({
 
   return (
     <li>
-      {todo.title}
+      <Link to={`/${todo.id}`}>{todo.title}</Link>
       <input
         value={title}
         onChange={e => setTItle(e.target.value)}
@@ -77,25 +78,3 @@ export default function TodoItem({
     </li>
   )
 }
-
-// function a(x:number, y:number) {
-//   return x + y
-// }
-// function UserItem(props: {todo: User}) { //props는 객체데이터. todo는 User 타입
-//   const todo = props.todo
-//   const {todo} = props // 구조분해할당
-// }
-
-// export default function UserItem(props) {
-//   1)const todo = props.todo
-//   2) const { todo } = props // 객체구조분해할당
-//   return (
-//     <li key={todo.title}>
-//       {todo.title}
-//       <input
-//         value={}
-//         onChange={}
-//       />
-//     </li>
-//   )
-// }
