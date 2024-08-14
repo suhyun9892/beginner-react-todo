@@ -1,78 +1,51 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import type { Todo } from '@/routes/Main'
+import { useTodosStore } from '@/stores/todos'
+import type { Todo } from '@/stores/todos'
 
-export default function TodoItem({
-  todo,
-  setTodo,
-  deleteTodo
-}: {
-  todo: Todo
-  setTodo: (updatedTodo: Todo) => void
-  deleteTodo: (todoToDelete: Todo) => void
-}) {
-  // return 키워드 없으면 void(return 키워드가 없다는 뜻. 있으면 그 데이터 써줘야 됨)
-  // return undefined --> undefined 타입 !
+export default function TodoItem({ todo }: { todo: Todo }) {
   const [title, setTItle] = useState(todo.title)
+  const [done, setDone] = useState(todo.done)
+  const updateTodo = useTodosStore(state => state.updateTodo)
+  const deleteTodo = useTodosStore(state => state.deleteTodo)
+
+  useEffect(() => {
+    setTItle(todo.title)
+    setDone(todo.done)
+  }, [todo])
+  // 의존성 배열, todo 객체가 변경되는 것에 의존해서 useEffect가 실행된다.
+  // todo가 변경될 때마다 title을 변경해준다.
 
   async function keydownHandler(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
-      updateTodo()
+      updateTodo({
+        ...todo,
+        title
+      })
+      // 기존 todo의 title을 새로운 title로 변경
     }
-  }
-
-  async function updateTodo() {
-    setTodo({
-      ...todo,
-      title: title
-      // title은 수정된 그 title로 적용해줘, 속성과 변수 이름이 같으니 그냥 title로 축약할 수 있음
-    })
-    console.log('서버로 전송', title)
-    const res = await fetch(
-      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todo.id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-          apikey: 'KDT9_AHMq2s7n',
-          username: 'FE1_ParkSuHyun'
-        },
-        body: JSON.stringify({
-          // 수정된 title
-          title,
-          done: todo.done
-        })
-      }
-    )
-    const updatedTodo: Todo = await res.json()
-    console.log(updatedTodo, title)
-    // setTodo(updatedTodo)
-  }
-
-  async function deleteItem() {
-    await fetch(
-      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todo.id}`, //:todoId
-      {
-        method: 'DELETE',
-        headers: {
-          'content-type': 'application/json',
-          apikey: 'KDT9_AHMq2s7n',
-          username: 'FE1_ParkSuHyun'
-        }
-      }
-    )
-    deleteTodo(todo)
   }
 
   return (
     <li>
       <Link to={`/${todo.id}`}>{todo.title}</Link>
       <input
+        type="checkbox"
+        checked={done}
+        onChange={e => {
+          setDone(e.target.checked)
+          updateTodo({
+            ...todo,
+            done: e.target.checked
+          })
+        }}
+      />
+      <input
         value={title}
         onChange={e => setTItle(e.target.value)}
         onKeyDown={keydownHandler}
       />
-      <button onClick={deleteItem}>삭제</button>
+      <button onClick={() => deleteTodo(todo)}>삭제</button>
       {/* <button onClick={deleteItem()}>삭제</button> */}
       {/* 호출을 해버려서 바로 지워졌던 문제 !!! */}
     </li>
