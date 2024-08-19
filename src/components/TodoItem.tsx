@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useTodosStore } from '@/stores/todos'
 import type { Todo } from '@/stores/todos'
+import { useTodosStore } from '@/stores/todos'
 
 export default function TodoItem({ todo }: { todo: Todo }) {
   const [title, setTItle] = useState(todo.title)
-  const [done, setDone] = useState(todo.done)
   const updateTodo = useTodosStore(state => state.updateTodo)
   const deleteTodo = useTodosStore(state => state.deleteTodo)
+  const [done, setDone] = useState(todo.done)
 
   useEffect(() => {
     setTItle(todo.title)

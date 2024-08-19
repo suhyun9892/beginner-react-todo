@@ -30,6 +30,7 @@ export default function TodoItemModal() {
         ...currentTodo,
         title
       })
+      offModal()
     }
   }
 
