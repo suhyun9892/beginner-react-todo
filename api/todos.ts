@@ -11,7 +11,9 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     endpoint = '',
     method = 'GET',
     data
-  } = req.body as Partial<RequestBody>
+    // req.body = undefined면 {} 사용해줘
+  } = (req.body || {}) as Partial<RequestBody>
+
   const { data: responseValue } = await axios({
     url: `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${endpoint}`,
     method,
