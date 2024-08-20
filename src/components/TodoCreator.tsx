@@ -2,9 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 
 export default function TodoCreator({ getTodos }: { getTodos: () => void }) {
-  // getTodos 함수를 받아올건데, 걔는 이렇게 생겼어
   const [title, setTitle] = useState('')
-  // input 으로 들어오는 데이터를 가지고 있을 반응형 데이터가 필요
 
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
@@ -14,13 +12,12 @@ export default function TodoCreator({ getTodos }: { getTodos: () => void }) {
   }
 
   async function createTodo() {
-    await axios.post('/api/todos'),
-      {
-        method: 'POST',
-        data: {
-          title
-        }
+    await axios.post('/api/todos', {
+      method: 'POST',
+      data: {
+        title
       }
+    })
     getTodos()
   }
 
